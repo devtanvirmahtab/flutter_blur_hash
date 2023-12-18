@@ -72,24 +72,22 @@ class HomePageState extends State<HomePage> {
                   style: flatButtonStyle,
                   child: const Text("Encode1"),
                   onPressed: () async {
-                    // blurHashEncode(1);
-                    // is1st = true;
-                    // setState(() {
-                    //
-                    // });
+                    blurHashEncode(1);
+                    is1st = true;
+                    setState(() {
 
+                    });
                   },
                 ),
                 TextButton(
                   style: flatButtonStyle,
                   child: const Text("Encode2"),
                   onPressed: () async {
-                    // blurHashEncode(2);
-                    // is1st = false;
-                    // setState(() {
-                    //
-                    // });
+                    blurHashEncode(2);
+                    is1st = false;
+                    setState(() {
 
+                    });
                   },
                 ),
               ]),
