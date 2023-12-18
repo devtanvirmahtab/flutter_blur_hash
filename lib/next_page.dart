@@ -1,41 +1,46 @@
-// import 'dart:ui' as ui;
-// import 'package:flutter/material.dart';
-// import 'package:flutter/services.dart';
-// import 'package:image/image.dart' as img;
-//
-//
-// class NextPage extends StatelessWidget {
-//   const NextPage({super.key});
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       home: Scaffold(
-//         appBar: AppBar(title: const Text('Blur Image Example')),
-//         body: Center(
-//           child: FutureBuilder<ui.Image>(
-//             future: blurImage('assets/sample_image.jpg', 10.0), // Change the image path and blur radius as needed
-//             builder: (context, snapshot) {
-//               if (snapshot.connectionState == ConnectionState.done) {
-//                 return Image(
-//                   image: MemoryImage(Uint8List.fromList(snapshot.data!.getBytes())),
-//                 );
-//               } else {
-//                 return CircularProgressIndicator();
-//               }
-//             },
-//           ),
-//          ),
-//       ),
-//     );
-//   }
-//
-//   Future<ui.Image> blurImage(String imagePath, double sigma) async {
-//     ByteData data = await rootBundle.load(imagePath);
-//     List<int> bytes = data.buffer.asUint8List();
-//     img.Image image = img.decodeImage(Uint8List.fromList(bytes))!;
-//     img.Image blurredImage = img.copyResize(image, width: image.width, height: image.height);
-//     blurredImage = img.blur(blurredImage, sigma: sigma);
-//     return blurredImage.toUIImage();
-//   }
-// }
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'dart:typed_data';
+import 'package:image/image.dart' as img;
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(title: Text('Blur Hash Example')),
+        body: Center(
+          child: FutureBuilder<String>(
+            future: generateBlurHash('assets/sample_image.jpg'), // Replace with your image path
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.done) {
+                return Text('Blur Hash: ${snapshot.data}');
+              } else {
+                return CircularProgressIndicator();
+              }
+            },
+          ),
+        ),
+      ),
+    );
+  }
+
+  Future<String> generateBlurHash(String imagePath) async {
+    ByteData data = await rootBundle.load(imagePath);
+    List<int> bytes = data.buffer.asUint8List();
+    img.Image image = img.decodeImage(Uint8List.fromList(bytes))!;
+
+    // Resize the image to a small resolution (e.g., 32x32 pixels)
+    img.Image resizedImage = img.copyResize(image, width: 32, height: 32);
+
+    // TODO: Implement DCT, coefficient encoding, and hash generation
+    // This involves applying the blur hash algorithm, which is beyond the scope of a simple example.
+
+    // Placeholder return
+    return 'GeneratedBlurHashString';
+  }
+}
