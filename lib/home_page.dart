@@ -14,7 +14,7 @@ class HomePage extends StatefulWidget {
 class HomePageState extends State<HomePage> {
   Uint8List? _imageDataBytes;
   final TextEditingController _blurHashController =
-  TextEditingController(text: "L3Bw.Q2a0x=e1RwbOlay0J[:buAV");
+  TextEditingController(text: "zDBw.QJnABw|S1n%NwayJCn%W.f6jua|o0Wq1G\$3baNt\$QSgsToL}YW=r]W:WojZS4sTEySN=LsoJ7oJoLS25-axJQsVw{WpsoW;].WpJ7j[s:WWR*oL");
   var  is1st = true;
 
   @override
@@ -26,7 +26,7 @@ class HomePageState extends State<HomePage> {
   void blurHashEncode(int index) async {
     ByteData bytes = await rootBundle.load("images/img$index.jpg");
     Uint8List pixels = bytes.buffer.asUint8List();
-    var hash = await BlurHash.encode(pixels, 4, 3);
+    var hash = await BlurHash.encode(pixels, 8, 7,);
     _blurHashController.text = hash;
     blurHashDecode();
   }
@@ -68,6 +68,13 @@ class HomePageState extends State<HomePage> {
             Padding(
               padding: const EdgeInsets.only(top: 16.0),
               child: Wrap(spacing: 16.0, runSpacing: 8.0, children: [
+                TextButton(
+                  style: flatButtonStyle,
+                  child: const Text("Next page"),
+                  onPressed: () async {
+
+                  },
+                ),
                 TextButton(
                   style: flatButtonStyle,
                   child: const Text("Encode1"),
