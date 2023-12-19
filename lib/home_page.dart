@@ -99,7 +99,7 @@ class HomePageState extends State<HomePage> {
                 ),
               ]),
             ),
-            const Text("blur hash image"),
+            const Text("Blur hash"),
 
             Padding(
               padding: const EdgeInsets.only(top: 16.0),
@@ -113,7 +113,7 @@ class HomePageState extends State<HomePage> {
                 ),
               ),
             ),
-            const Text("original image"),
+            const Text("Original Image"),
             Padding(
               padding: const EdgeInsets.only(top: 16.0),
               child: FractionallySizedBox(
