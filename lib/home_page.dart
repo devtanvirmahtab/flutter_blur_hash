@@ -1,6 +1,6 @@
+import 'package:blurhash/blurhash.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_blurhash/flutter_blurhash.dart';
 
 import 'blurhash_image.dart';
 
@@ -27,7 +27,6 @@ class HomePageState extends State<HomePage> {
     ByteData bytes = await rootBundle.load("images/img$index.jpg");
     Uint8List pixels = bytes.buffer.asUint8List();
     var hash = await BlurHash.encode(pixels, 4,3,);
-    BlurHash(hash: '',);
     _blurHashController.text = hash;
     blurHashDecode();
   }
