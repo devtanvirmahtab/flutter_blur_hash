@@ -1,32 +1,145 @@
+import 'dart:async';
+import 'dart:io';
+
+import 'package:blurhash_ffi/blurhash_ffi.dart';
 import 'package:flutter/material.dart';
 
-import 'blurhash_image_page.dart';
-import 'home_page.dart';
+void main() {
+  runApp(const MyApp());
+}
 
-
-void main() => runApp(const MyApp());
-
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  Future<String>? blurHashResult;
+  int selectedImage = -1;
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: DefaultTabController(
-        length: 2,
-        child: Scaffold(
-          appBar: AppBar(
-            bottom: const TabBar(
-              tabs: [
-                Tab(text: "Home"),
-                Tab(text: "BlurHash Image"),
+      home: Scaffold(
+        appBar: AppBar(
+          title: const Text('Blurhash FFI Example'),
+        ),
+        body: SingleChildScrollView(
+          child: Container(
+            padding: const EdgeInsets.all(10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [1, 2, 3].map<Widget>((e) {
+                    var assetName = e == 2
+                        ? 'assets/images/$e.jpg'
+                        : 'assets/images/$e.jpg';
+                    return MaterialButton(
+                      padding: EdgeInsets.zero,
+                      onPressed: () async {
+                        blurHashResult = BlurhashFFI.encode(
+                          FileImage(File("path")),
+                          componentX: 5,
+                          componentY: 5,
+                        );
+                        setState(() {
+                          selectedImage = e;
+                        });
+                      },
+                      child: ImageSelect(
+                        imageProvider: AssetImage(assetName),
+                        isSelected: selectedImage == e,
+                      ),
+                    );
+                  }).toList(),
+                ),
+                if (blurHashResult != null)
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: FutureBuilder(
+                      future: blurHashResult,
+                      builder: (context, snapshot) => snapshot.hasData
+                          ? Text('mbh: ${snapshot.data}')
+                          : const CircularProgressIndicator(),
+                    ),
+                  ),
+                if (blurHashResult != null)
+                  Align(
+                    alignment: Alignment.center,
+                    child: SizedBox(
+                      height: 120,
+                      width: 120,
+                      child: FutureBuilder(
+                          future: blurHashResult,
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              return BlurhashFfi(
+                                hash: snapshot.data!,
+                                decodingWidth: 120,
+                                decodingHeight: 120,
+                                imageFit: BoxFit.cover,
+                                color: Colors.grey,
+                                onReady: () => debugPrint('Blurhash ready'),
+                                onDisplayed: () =>
+                                    debugPrint('Blurhash displayed'),
+                                errorBuilder: (context, error, stackTrace) =>
+                                    Container(
+                                  color: Colors.red,
+                                  child: const Center(
+                                    child: Text(
+                                      'Error',
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                ),
+                              );
+                            }
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          }),
+                    ),
+                  )
               ],
             ),
-            title: const Text('BlurHash Example'),
           ),
-          body: TabBarView(
-            children: [const HomePage(), BlurHashImagePage()],
-          ),
+        ),
+      ),
+    );
+  }
+}
+
+class ImageSelect extends StatelessWidget {
+  final ImageProvider imageProvider;
+  final bool isSelected;
+
+  const ImageSelect(
+      {super.key, required this.imageProvider, this.isSelected = false});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        decoration: BoxDecoration(
+          border: isSelected ? Border.all(color: Colors.blue, width: 2) : null,
+        ),
+        child: Image(
+          image: imageProvider,
+          width: 100,
+          height: 100,
         ),
       ),
     );
