@@ -47,7 +47,7 @@ class _MyAppState extends State<MyApp> {
                       padding: EdgeInsets.zero,
                       onPressed: () async {
                         blurHashResult = BlurhashFFI.encode(
-                          FileImage(File("path")),
+                          AssetImage(assetName),
                           componentX: 5,
                           componentY: 5,
                         );
