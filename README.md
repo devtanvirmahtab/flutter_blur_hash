@@ -1,6 +1,9 @@
+
+![Screenshot_20231224_101056](https://github.com/devtanvirmahtab/flutter_blur_hash/assets/118268749/34c8c4b8-1d93-405c-934d-bd1be2829ca6)
 # flutter_blur_hash
 
-A new Flutter project.
+Project video >>> 
+https://github.com/devtanvirmahtab/flutter_blur_hash/assets/118268749/03696834-6074-45f8-8310-3d5e97124088
 
 ## Getting Started
 
